@@ -1,0 +1,58 @@
+# Traefik Dynamic Configuration
+http:
+  # Middlewares
+  middlewares:
+    # HTTPS Redirect
+    https-redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    
+    # Security Headers
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+
+    # Default whitelist (internal networks)
+    default-whitelist:
+      ipWhiteList:
+        sourceRange:
+          - "10.0.0.0/8"
+          - "192.168.0.0/16"
+          - "172.16.0.0/12"
+
+    # Secure Headers for external services
+    secured:
+      chain:
+        middlewares:
+          - default-headers
+
+  # Routers for External Services (non-Docker services)
+  # Example: Portainer running outside Docker
+  # routers:
+  #   portainer:
+  #     entryPoints:
+  #       - "https"
+  #     rule: "Host(`portainer.yourdomain.com`)"
+  #     middlewares:
+  #       - default-headers
+  #       - https-redirect
+  #     tls: {}
+  #     service: portainer
+  
+  # Services for External Services
+  # services:
+  #   portainer:
+  #     loadBalancer:
+  #       servers:
+  #         - url: "https://192.168.1.100:9443"
+  #       passHostHeader: true

@@ -1,0 +1,5 @@
+# Sensitive files - DO NOT COMMIT
+cf-token
+.env
+acme.json
+logs/

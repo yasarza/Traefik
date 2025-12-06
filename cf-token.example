@@ -1,0 +1,3 @@
+# Paste your Cloudflare API Token here (no quotes, no extra spaces)
+# Generate at: Cloudflare Dashboard > Profile > API Tokens > Create Token > Edit Zone DNS
+your-cloudflare-dns-api-token-here
